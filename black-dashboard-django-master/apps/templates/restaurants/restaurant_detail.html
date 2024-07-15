@@ -1,0 +1,68 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} {{ restaurant.name }} {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header">
+                    <h2 class="card-title"> {{ restaurant.name }}
+                        <small>
+                            <a href="{% url 'restaurant_update' restaurant.pk %}">
+                                <i class="tim-icons icon-pencil"></i>
+                            </a>
+                            <!-- <a href="{% url 'restaurant_delete' restaurant.pk %}">
+                                <i class="tim-icons icon-trash-simple"></i>
+                            </a> -->
+                        </small>
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <p>Address: {{ restaurant.address }}</p>
+                    <p>Opening Hours: {{ restaurant.opening_hours }}</p>
+                    <p>Phone Number: {{ restaurant.phone_number }}</p>
+                    <p>Rating: {{ restaurant.rating }}</p>
+                    <p>Description: {{ restaurant.description }}</p>
+                    <br/>
+                    <h3 class="mb-0">Menu Items <small><a href="{% url 'menu_item_create' restaurant.pk %}"><i class="tim-icons icon-simple-add"></i></a></small></h3>
+                    <table class="table tablesorter " id="">
+                        <thead class=" text-primary">
+                            <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in restaurant.menu_items.all %}
+                            <tr>
+                                <td><a href="{% url 'menu_item_update' restaurant.pk item.pk %}">{{ item.name }}</a></td>
+                                <td>{{ item.price }}</td>
+                                <td>
+                                    <a href="{% url 'menu_item_update' restaurant.pk item.pk %}">
+                                        <i class="tim-icons icon-pencil"></i>
+                                    </a>
+                                    <a data-toggle="modal" data-target="#confirmationDeleteModal" href="#" data-href="{% url 'menu_item_delete' restaurant.pk item.pk %}">
+                                        <i class="tim-icons icon-trash-simple"></i>
+                                    </a>
+                                </td>                                    
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
